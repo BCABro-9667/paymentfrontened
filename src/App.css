@@ -158,8 +158,16 @@ body {
     cursor: pointer;
     width: fit-content;
     font-family: "Poppins", sans-serif;
-
   }
+
+  
+  @media (max-width: 468px) {
+    .quick-pay-buttons button {
+      padding: 10px 30px;
+    }
+  }
+  
+
 
 
   
