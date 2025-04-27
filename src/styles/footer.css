@@ -2,3 +2,7 @@
     line-height: 0.8rem;
     margin-top: 20px;
 }
+
+.footer p{
+    font-size: 14px !important;
+}
