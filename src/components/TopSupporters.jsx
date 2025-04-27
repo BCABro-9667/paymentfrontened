@@ -16,26 +16,35 @@ import image0 from '../assets/Illustration_iocns/0.png';
 
 const images = [image0, image1, image2, image3, image4, image5, image6, image7, image8, image9];
 
+// Function to generate random color
+const getRandomColor = () => {
+  const colors = ['#FF6347', '#3CB371', '#FFD700', '#8A2BE2', '#00CED1', '#FF1493', '#00BFFF', '#F4A300', '#32CD32'];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+};
+
 const TopSupporters = () => {
   const [supporters, setSupporters] = useState([]);
+  const [loading, setLoading] = useState(true); // New state for loading
   const [showConfetti, setShowConfetti] = useState(false); // <--- NEW state
 
-  const getImageForIndex = (index) => {
-    if (index >= 0 && index < images.length) {
-      return images[index];
-    }
-    return image0;
+  const getRandomImage = () => {
+    // Get a random index from the images array
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return images[randomIndex];
   };
 
   useEffect(() => {
     // Fetch supporters from the backend
     const fetchSupporters = async () => {
       try {
-        const response = await fetch('http://localhost:5000/top-supporters'); // <-- fixed port here
+        const response = await fetch('https://paymentint.onrender.com/top-supporters'); // <-- fixed port here
         const data = await response.json();
         setSupporters(data);
+        setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error('Error fetching supporters:', error);
+        setLoading(false); // Ensure loading is set to false in case of error
       }
     };
 
@@ -53,25 +62,41 @@ const TopSupporters = () => {
       // Automatically stop confetti after 5 seconds
       setTimeout(() => {
         setShowConfetti(false);
-      }, 5000);
+      }, 4000);
     }
   }, []);
 
   return (
     <div className="top-supporters">
-      {showConfetti && <Confetti />} {/* Show confetti */}
-      
+      {showConfetti && (
+        <Confetti 
+          gravity={0.5} 
+          wind={0.01} 
+          numberOfPieces={400} 
+        />
+      )}
+
       <h3 className="heading">Top Supporters 🎉</h3>
-      <ul>
-        {supporters.map((supporter, index) => (
-          <li key={index} className="supporter-item">
-            <img src={getImageForIndex(supporter.imageIndex)} alt="dp" className="supporter-dp" />
-            <span>
-              {supporter.name} donated ₹{supporter.amount} with a message "{supporter.message}"
-            </span>
-          </li>
-        ))}
-      </ul>
+      
+      {/* Spinner while loading */}
+      {loading ? (
+        <div className="spinner-container">
+          <div className="spinner"></div>
+        </div>
+      ) : (
+        <ul>
+          {supporters.map((supporter, index) => (
+            <li key={index} className="supporter-item">
+              <img src={getRandomImage()} alt="Supporter's DP" className="supporter-dp" />
+              <span>
+                <span style={{ color: getRandomColor() }}>{supporter.name}</span> donated ₹
+                <span>{supporter.amount}</span> with a message: "
+                <span >{supporter.message}</span>"
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

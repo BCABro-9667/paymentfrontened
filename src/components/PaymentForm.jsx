@@ -18,7 +18,7 @@ const PaymentForm = () => {
     try {
       setLoading(true); // Start spinner
 
-      const response = await fetch("http://localhost:5000/order", {
+      const response = await fetch("https://paymentint.onrender.com/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +76,7 @@ const PaymentForm = () => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <button onClick={handlePayment}>Pay</button>
+          <button onClick={handlePayment}>Pay ₹ {amount}</button>
 
           <div className="quick-pay-buttons">
             {[1, 10, 20, 30].map((amt, index) => (
@@ -89,7 +89,7 @@ const PaymentForm = () => {
                 {index === 1 && "😊"}
                 {index === 2 && "😄"}
                 {index === 3 && "😍"}
-                Pay ₹{amt}
+                Pay ₹{amt} 
               </button>
             ))}
           </div>

@@ -8,7 +8,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchTotalAmount = async () => {
       try {
-        const response = await fetch('http://localhost:5000/total-amount'); // Ensure this is correct
+        const response = await fetch('https://paymentint.onrender.com/total-amount'); // Ensure this is correct
         const data = await response.json();
         if (data.totalAmount !== undefined) {
           setTotalAmount(data.totalAmount); // Assuming response contains the total amount
