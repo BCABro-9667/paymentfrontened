@@ -57,7 +57,7 @@ const PaymentForm = () => {
         </div>
       ) : (
         <>
-          <h3>Make a Payment💳</h3>
+          <h3 className="heading">Donate Now 💳</h3>
           <input
             type="text"
             placeholder="Enter Name"

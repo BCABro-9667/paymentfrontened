@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import Confetti from 'react-confetti'; // <-- import confetti
 import 'react-toastify/dist/ReactToastify.css';
 
 import image1 from '../assets/Illustration_iocns/1.png';
@@ -17,13 +18,12 @@ const images = [image0, image1, image2, image3, image4, image5, image6, image7, 
 
 const TopSupporters = () => {
   const [supporters, setSupporters] = useState([]);
+  const [showConfetti, setShowConfetti] = useState(false); // <--- NEW state
 
   const getImageForIndex = (index) => {
-    // Ensure the index is within the bounds of the images array
     if (index >= 0 && index < images.length) {
       return images[index];
     }
-    // Return the first image (image0) if there are more than 10 donors
     return image0;
   };
 
@@ -31,7 +31,7 @@ const TopSupporters = () => {
     // Fetch supporters from the backend
     const fetchSupporters = async () => {
       try {
-        const response = await fetch('http://localhost:5000/top-supporters');
+        const response = await fetch('http://localhost:5000/top-supporters'); // <-- fixed port here
         const data = await response.json();
         setSupporters(data);
       } catch (error) {
@@ -42,13 +42,30 @@ const TopSupporters = () => {
     fetchSupporters();
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+
+    if (name) {
+      toast.success('Payment Successful! 🎉');
+      setShowConfetti(true);
+
+      // Automatically stop confetti after 5 seconds
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000);
+    }
+  }, []);
+
   return (
     <div className="top-supporters">
-      <h3>Top Supporters 🎉</h3>
+      {showConfetti && <Confetti />} {/* Show confetti */}
+      
+      <h3 className="heading">Top Supporters 🎉</h3>
       <ul>
         {supporters.map((supporter, index) => (
           <li key={index} className="supporter-item">
-            <img src={getImageForIndex(index)} alt="dp" className="supporter-dp" />
+            <img src={getImageForIndex(supporter.imageIndex)} alt="dp" className="supporter-dp" />
             <span>
               {supporter.name} donated ₹{supporter.amount} with a message "{supporter.message}"
             </span>

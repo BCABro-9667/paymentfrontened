@@ -25,7 +25,7 @@ const UserDetails = () => {
     <div className="user-details">
       <img src={dp} alt="Profile" />
       <h2>@avdhesh_kumar</h2>
-      <p>Let's help avdhesh_kumar get a chai! 🍾</p>
+      <p>Let's help avdhesh_kumar get a chai! ☕</p>
       <p>{/* Example: 10 Payments - ₹0 raised */}</p>
       <p>{/* You can also display how many donations received dynamically */}</p>
       {/* <p>{`Total Raised: ₹${totalAmount}`}</p> */}
