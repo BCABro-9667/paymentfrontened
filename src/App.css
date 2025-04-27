@@ -28,15 +28,12 @@ body {
     /* background-color: #1E1E1E; */
     margin-bottom: 20px;
     /* background: linear-gradient(to bottom, #1e1e1e, #000000); */
-
-   
-
   }
   
   .main-section {
     display: flex;
     flex-direction: column;
-
+    flex-direction: column-reverse;
     gap: 20px;
   }
   
